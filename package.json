@@ -1,0 +1,11 @@
+{
+  "name": "wetube_project",
+  "version": "1.0.0",
+  "description": "Cloning Wetube with Vanilla and Node JS",
+  "main": "index.js",
+  "author": "YUN JAE",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
