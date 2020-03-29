@@ -1,0 +1,13 @@
+mixin videoBlock(video = {}) 
+  .videoBlock
+    video.vidoeBlock__thumbnail(src=video.videoFile, controls=true)
+    h4.videoBlock__title=video.title
+    h6.videoBlock__views=video.views
+ 
+
+
+
+//- mixin은 일종의 함수
+//- videoBlock 이라는 mixin을 정의했습니다 인자로 video를 받는데
+//- 이것(video)의 값은 빈 객체({})입니다
+//- 즉 h1 TAG에다가 비어있는 video의 값은 " title " 이다 라는 것.
