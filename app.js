@@ -7,19 +7,22 @@ import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
 import routes from "./routes";
+import {
+  localsMiddleware
+} from "./middleware";
 
 
 const app = express();
 
-
+app.use(helmet());
+app.set("view engine", "pug");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(cookieParser());
-app.use(helmet());
 app.use(morgan("dev")); // 미들웨어 함수를 사용할때 .use를 이용함
-
+app.use(localsMiddleware);
 
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter); // 데이터 전송방식 get,post 방식이 있다.

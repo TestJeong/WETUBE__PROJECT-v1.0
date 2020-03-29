@@ -1,7 +1,46 @@
-export const home = (req, res) => res.send("Home");
-export const search = (req, res) => res.send("Search");
-export const videos = (req, res) => res.send("Videos");
-export const upload = (req, res) => res.send("Upload");
-export const videoDetail = (req, res) => res.send("Video Detail");
-export const editVideo = (req, res) => res.send("Edit Video");
-export const deleteVideo = (req, res) => res.send("Delete Video");
+export const home = (req, res) => res.render("home", {
+  pageTitle: "Home"
+});
+
+
+export const search = (req, res) => {
+  const {
+    query: {
+      term: searchingBy // term(input의 이름)값에 searchingBy라는 이름을 붙혀준다
+    },
+  } = req; // = req.query.term 이랑 같다고 보면 된다. (구조분해할당)
+
+  res.render("search", {
+    pageTitle: "SEARCH",
+    searchingBy
+  });
+};
+
+
+export const videos = (req, res) => res.render("videos", {
+  pageTitle: "VIDEOS"
+});
+
+
+export const upload = (req, res) => res.render("upload", {
+  pageTitle: "UPLOAD"
+});
+
+
+export const videoDetail = (req, res) => res.render("videoDetail", {
+  pageTitle: "VIDOE_DETAIL"
+});
+
+
+export const editVideo = (req, res) => res.render("editVideo", {
+  pageTitle: "EDIT_VIDEO"
+});
+
+
+export const deleteVideo = (req, res) => res.render("deleteVideo", {
+  pageTitle: "DELETE_VIDEO"
+});
+
+
+// render 함수의 첫번째 인자는 템플릿이고, 두 번째 인자는 템플릿에 추가할 정보가 담긴 객체
+// render 함수는 첫 번째 인자는 페이지 파일명, 두 번째 인자로 보낼 값들을 object 형식으로 준다
