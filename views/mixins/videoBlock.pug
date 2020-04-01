@@ -1,4 +1,5 @@
 mixin videoBlock(video = {}) 
+
   .videoBlock
     a(href=routes.videoDetail(video.id))
       video.vidoeBlock__thumbnail(src=video.videoFile, controls=true)
@@ -11,4 +12,4 @@ mixin videoBlock(video = {})
 //- mixin은 일종의 함수
 //- videoBlock 이라는 mixin을 정의했습니다 인자로 video를 받는데
 //- 이것(video)의 값은 빈 객체({})입니다
-//- 즉 h1 TAG에다가 비어있는 video의 값은 " title " 이다 라는 것.
+//- video.title는 video 인자 값에다가 title이라는 값이 들어가는데 이건 템플릿 파일에서 값을 적어 넣는다

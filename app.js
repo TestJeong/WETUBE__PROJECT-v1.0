@@ -25,7 +25,7 @@ app.use(morgan("dev")); // 미들웨어 함수를 사용할때 .use를 이용함
 app.use(localsMiddleware);
 
 app.use(routes.home, globalRouter);
-app.use(routes.users, userRouter); // 데이터 전송방식 get,post 방식이 있다.
+app.use(routes.users, userRouter);
 app.use(routes.videos, videoRouter);
 
 export default app;

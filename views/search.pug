@@ -3,7 +3,7 @@ include mixins/videoBlock
 
 block content
     .search__header
-        h3 Searching for : #{searchingBy}
+        h3 Searching for : #{searchingBy} 
 
     .search__videos
         each item in videos
@@ -12,3 +12,6 @@ block content
                 title: item.title,
                 views: item.views
     })
+
+//- each는 반복문
+//- videos 는 db에 있는 상수.
