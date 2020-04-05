@@ -1,12 +1,22 @@
-import {
-  videos
-} from "../db";
 import routes from "../routes";
+import Video from "../models/Video";
 
-export const home = (req, res) => res.render("home", {
-  pageTitle: "Home",
-  videos
-});
+
+export const home = async (req, res) => {
+  try {
+    const videos = await Video.find({});
+    res.render("home", {
+      pageTitle: "Home",
+      videos
+    });
+  } catch (error) {
+    console.log(error);
+    res.render("home", {
+      pageTitle: "Home",
+      videos: []
+    });
+  }
+};
 
 
 export const search = (req, res) => {
@@ -56,3 +66,5 @@ export const deleteVideo = (req, res) => res.render("deleteVideo", {
 
 // render 함수의 첫번째 인자는 템플릿이고, 두 번째 인자는 템플릿에 추가할 정보가 담긴 객체
 // render 함수는 첫 번째 인자는 페이지 파일명, 두 번째 인자로 보낼 값들을 object 형식으로 준다
+// render는 설정된 템플릿 엔진을 사용해서 views를 렌더링 한다
+// 파일명이랑 views폴더안에 있는 .pug파일을 불러온다~
