@@ -101,3 +101,5 @@ dist
 .fusebox/
 
 package-lock.json
+
+videos
