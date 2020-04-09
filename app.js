@@ -16,6 +16,8 @@ const app = express();
 
 app.use(helmet());
 app.set("view engine", "pug");
+app.use("/uploads", express.static("uploads")) // 디렉토리(폴더) 안의 정적 파일을 제공해준다.
+// /uploads로 가면 uploads라는 디렉토리(폴더)안으로 들어간다
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
