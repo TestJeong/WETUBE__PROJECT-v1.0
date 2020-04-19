@@ -27,7 +27,7 @@ const routes = {
   logout: LOGOUT,
   search: SEARCH,
   users: USERS,
-  userDetail: (id) => {
+  userDetail: id => {
     if (id) {
       return `/users/${id}`
     } else {
@@ -40,13 +40,28 @@ const routes = {
   upload: UPLOAD,
   videoDetail: id => {
     if (id) {
-      return `/videos/${id}`;
+      return `/videos/${id}`; // id는 videoDetail(id)에 입력한 값이 출력된다
     } else {
       return VIDEO_DETAIL;
     }
+  }, // videoDetail(id) 라는 뜻. id 대입값이 같은면 if 함수 실행.
+  editVideo: id => {
+    if (id) {
+      return `/videos/${id}/edit`;
+    } else {
+      return EDIT_VIDEO;
+    }
   },
-  editVideo: EDIT_VIDEO,
-  deleteVideo: DELETE_VIDEO
+  deleteVideo: id => {
+    if (id) {
+      return `/videos/${id}/delete`;
+    } else {
+      return DELETE_VIDEO;
+    }
+  }
 };
 
 export default routes;
+
+// 만약 controller에서 어떤 data를 가지고 있다는 것을 표현하고 싶으면
+// : 더블콜런과 함께 이름을 넣으면 됨.
