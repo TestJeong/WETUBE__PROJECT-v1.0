@@ -17,6 +17,8 @@ export const home = async (req, res) => {
   }
 };
 
+// Serach ------------------------------------------------------------------------
+
 export const search = async (req, res) => {
   const {
     query: {
@@ -27,9 +29,9 @@ export const search = async (req, res) => {
   try {
     videos = await Video.find({
       title: {
-        $regex: searchingBy,
-        $options: "i",
-      }
+        $regex: searchingBy, // regex는 원하는 단어를 검색해줌
+        $options: "i", // 여기서 옵션은 "안녕" 이라는 단어중 "안" 만 입력해도 "안"으로 시작되는 단어를 다 찾는 옵션
+      },
     });
   } catch (error) {
     console.log(error);
@@ -41,6 +43,8 @@ export const search = async (req, res) => {
   });
 };
 
+// Upload ------------------------------------------------------------------------
+
 export const getUpload = (req, res) =>
   res.render("upload", {
     pageTitle: "UPLOAD",
@@ -48,13 +52,8 @@ export const getUpload = (req, res) =>
 
 export const postUpload = async (req, res) => {
   const {
-    body: {
-      title,
-      description
-    },
-    file: {
-      path
-    },
+    body: { title, description },
+    file: { path },
   } = req;
   const newVideo = await Video.create({
     fileUrl: path,
@@ -67,11 +66,11 @@ export const postUpload = async (req, res) => {
 // 몽구스에서 id는 기본적으로 도큐먼트의 _id 필드를 반환하는, 각각의 스키마에 배정되는 가상의 값이다
 // 기본적으로 upload 할때마다 파일마다 가상의 id값이 부여가 된다.
 
+// VideoDetaill ------------------------------------------------------------------------
+
 export const videoDetail = async (req, res) => {
   const {
-    params: {
-      id
-    },
+    params: { id },
   } = req;
   try {
     const video = await Video.findById(id);
@@ -86,11 +85,11 @@ export const videoDetail = async (req, res) => {
   }
 };
 
+// getEditVideo ------------------------------------------------------------------------
+
 export const getEditVideo = async (req, res) => {
   const {
-    params: {
-      id
-    },
+    params: { id },
   } = req;
   try {
     const video = await Video.findById(id);
@@ -105,32 +104,30 @@ export const getEditVideo = async (req, res) => {
 
 export const postEditVideo = async (req, res) => {
   const {
-    params: {
-      id
-    },
-    body: {
-      title,
-      description
-    },
+    params: { id },
+    body: { title, description },
   } = req;
   try {
-    await Video.findOneAndUpdate({
-      _id: id,
-    }, {
-      title,
-      description,
-    });
+    await Video.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        title,
+        description,
+      }
+    );
     res.redirect(routes.videoDetail(id));
   } catch (error) {
     res.redirect(routes.home);
   }
 };
 
+// deleteVideo ------------------------------------------------------------------------
+
 export const deleteVideo = async (req, res) => {
   const {
-    params: {
-      id
-    },
+    params: { id },
   } = req;
   try {
     await Video.findOneAndRemove({
