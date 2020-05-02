@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(cookieParser());
-app.use(morgan("dev")); // 미들웨어 함수를 사용할때 .use를 이용함
+app.use(morgan("dev"));
 app.use(localsMiddleware);
 
 app.use(routes.home, globalRouter);
@@ -31,3 +31,5 @@ app.use(routes.users, userRouter);
 app.use(routes.videos, videoRouter);
 
 export default app;
+
+// 미들웨어 함수를 사용할때 .use를 이용함

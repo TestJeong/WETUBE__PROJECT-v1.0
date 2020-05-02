@@ -52,16 +52,23 @@ export const getUpload = (req, res) =>
 
 export const postUpload = async (req, res) => {
   const {
-    body: { title, description },
-    file: { path },
+    body: {
+      title,
+      description
+    },
+    file: {
+      path
+    },
   } = req;
   const newVideo = await Video.create({
     fileUrl: path,
-    title,
-    description,
+    title, // title : title ( Video 모델에서 스키마로 정의한 이름 : 값)
+    description, // description : description
   });
   console.log(req.file.path);
   res.redirect(routes.videoDetail(newVideo.id));
+  // redirect는 말 그대로 "다시 지시하다"라는 말로
+  // upload 탬플릿에서 파일, 제목, 설명을 다 적고 "완료"를 누르면 videoDetail 템플릿으로 열어라는 뜻.
 };
 // 몽구스에서 id는 기본적으로 도큐먼트의 _id 필드를 반환하는, 각각의 스키마에 배정되는 가상의 값이다
 // 기본적으로 upload 할때마다 파일마다 가상의 id값이 부여가 된다.
@@ -70,7 +77,11 @@ export const postUpload = async (req, res) => {
 
 export const videoDetail = async (req, res) => {
   const {
-    params: { id },
+    params: {
+      id
+    },
+    //주소에 포함된 변수를 담는다. 예를 들어 https://okky.com/post/12345 라는 주소가 있다면 12345를 담는다
+
   } = req;
   try {
     const video = await Video.findById(id);
@@ -89,7 +100,9 @@ export const videoDetail = async (req, res) => {
 
 export const getEditVideo = async (req, res) => {
   const {
-    params: { id },
+    params: {
+      id
+    },
   } = req;
   try {
     const video = await Video.findById(id);
@@ -104,19 +117,21 @@ export const getEditVideo = async (req, res) => {
 
 export const postEditVideo = async (req, res) => {
   const {
-    params: { id },
-    body: { title, description },
+    params: {
+      id
+    },
+    body: {
+      title,
+      description
+    },
   } = req;
   try {
-    await Video.findOneAndUpdate(
-      {
-        _id: id,
-      },
-      {
-        title,
-        description,
-      }
-    );
+    await Video.findOneAndUpdate({
+      _id: id,
+    }, {
+      title,
+      description,
+    });
     res.redirect(routes.videoDetail(id));
   } catch (error) {
     res.redirect(routes.home);
@@ -127,7 +142,9 @@ export const postEditVideo = async (req, res) => {
 
 export const deleteVideo = async (req, res) => {
   const {
-    params: { id },
+    params: {
+      id
+    },
   } = req;
   try {
     await Video.findOneAndRemove({
@@ -144,6 +161,7 @@ export const deleteVideo = async (req, res) => {
 // render는 설정된 템플릿 엔진을 사용해서 views를 렌더링 한다
 // 파일명이랑 views폴더안에 있는 .pug파일을 불러온다
 
+// query 란 데이터베이스에서 정보를 요청하는 것
 // req.body는 POST 방식의 데이터 요청하는 일부로, post 방식을 사용할때는 body를 사용한다(get의 경우 req.query 형식을 사용)
 // body는 기본적으로 undefuned값이라 body를 읽을려면 body-parser 모듈이 있어야한다.
 // req.body POST 요청의 일부로 클라이언트에서 전송 된 매개 변수를 보유합니다
