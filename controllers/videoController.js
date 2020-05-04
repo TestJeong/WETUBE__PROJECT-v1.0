@@ -158,7 +158,7 @@ export const deleteVideo = async (req, res) => {
 
 // render 함수의 첫번째 인자는 템플릿이고, 두 번째 인자는 템플릿에 추가할 정보가 담긴 객체
 // render 함수는 첫 번째 인자는 페이지 파일명, 두 번째 인자로 보낼 값들을 object 형식으로 준다
-// render는 설정된 템플릿 엔진을 사용해서 views를 렌더링 한다
+// render는 설정된 템플릿 엔진(pug)을 사용해서 views를 렌더링 한다
 // 파일명이랑 views폴더안에 있는 .pug파일을 불러온다
 
 // query 란 데이터베이스에서 정보를 요청하는 것

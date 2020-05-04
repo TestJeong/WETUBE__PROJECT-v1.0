@@ -13,3 +13,11 @@ block content
     })
 
     // fileUrl => videoFile 이었음.
+    // each는 반복문이다
+    //try catch 함수를 사용하기전에 위에 보면 const videos라는 변수를 만들어놨다
+    //이 만들어놓은 변수 videos가  each item in videos에 들어가 하나씩 대입해서
+    //res.render안에 있는 videos에 값이 대입이 된다.
+    //item은 반복문의 이름이기때문에 아무거나 입력해도 된다.
+    //videos에서 정보를 가져와서 item을 반복한다 (예를 들어 item.title은 videos에 있는 title의 값을 title에 대입한다)
+    //빈 배열이었던 videoBlock은 값을 대입 했으니 +videoBlock(video={id,title,views}) 이렇게 된다
+    //그러면 mixins에서 설정한 h4.videoBlock__title=video.title 은 video에 여기서 값을 대입한 title이 된다
