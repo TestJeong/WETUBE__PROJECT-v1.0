@@ -18,6 +18,7 @@ app.use(helmet());
 app.set("view engine", "pug");
 app.use("/uploads", express.static("uploads")) // 디렉토리(폴더) 안의 정적 파일을 제공해준다.
 // /uploads로 가면 uploads라는 디렉토리(폴더)안으로 들어간다
+app.use("/static", express.static("static"))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
@@ -32,4 +33,4 @@ app.use(routes.videos, videoRouter);
 
 export default app;
 
-// 미들웨어 함수를 사용할때 .use를 이용함
+// 미들웨어 함수를 사용할때 .use를 이용gka

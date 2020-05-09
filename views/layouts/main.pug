@@ -1,13 +1,13 @@
 doctype html
 html
     head
+        script(src="https://kit.fontawesome.com/8327d4b3ff.js")
         title #{pageTitle} l #{siteName}
-        <script src="https://kit.fontawesome.com/12f48ceb5e.js" crossorigin="anonymous"></script>
-        
-    body
-        header 
-            include ../partials/header
-
+        link(rel="stylesheet", herf="/static/styles.css")
+       
+    body        
+        include ../partials/header
         main
             block content
         include ../partials/footer
+        script(src="/static/main.js")

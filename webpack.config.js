@@ -7,31 +7,43 @@ const ENTRY_FILE = path.resolve(__dirname, "assets", "js", "main.js");
 const OUTPUT_DIR = path.join(__dirname, "static");
 
 const config = {
-  entry: ENTRY_FILE,
+  entry: ["@babel/polyfill", ENTRY_FILE],
   mode: MODE,
+  // mode는 속성을 정의하면 웹팩의 실행모드가 설정됨 총 3가지가 있는데
+  // none: 모드 설정 안함
+  // development: 개발 모드  개발자들이 좀 더 보기 편하게 웹팩 로그나 결과물이 보여짐
+  // production: 배포 모드 성능 최적화를 위해 기본적인 파일 압축 등의 빌드 과정이 추가됨
+
   module: {
     rules: [{
-      test: /\.(scss)$/,
-      use: ExtractCSS.extract([{
-          loader: "css-loader",
-        },
-        {
-          loader: "postcss-loader",
-          options: {
-            plugin() {
-              return [
-                autoprefixer({
-                  browsers: "cover 99.5%",
-                }),
-              ];
+        test: /\.(js)$/,
+        use: [{
+          loader: "babel-loader"
+        }]
+      },
+      {
+        test: /\.(scss)$/,
+        use: ExtractCSS.extract([{
+            loader: "css-loader",
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              plugins() {
+                return [
+                  autoprefixer({
+                    overrideBrowserslist: "cover 99.5%",
+                  }),
+                ];
+              },
             },
           },
-        },
-        {
-          loader: "sass-loader",
-        },
-      ]),
-    }, ],
+          {
+            loader: "sass-loader",
+          },
+        ]),
+      },
+    ],
   },
   output: {
     path: OUTPUT_DIR,
