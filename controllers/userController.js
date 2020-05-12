@@ -1,4 +1,5 @@
 import routes from "../routes";
+import User from "../models/User"
 
 export const getJoin = (req, res) => {
   res.render("join", {
@@ -6,7 +7,7 @@ export const getJoin = (req, res) => {
   });
 };
 
-export const postJoin = (req, res) => {
+export const postJoin = async (req, res) => {
   const {
     body: {
       name,
@@ -23,7 +24,16 @@ export const postJoin = (req, res) => {
       pageTitle: "JOIN"
     });
   } else {
-    //사용자 등록
+    try {
+      const user = await User({
+        name,
+        email
+      });
+      await User.register(user, password);
+      console.log(user)
+    } catch (error) {
+      console.log(error);
+    }
     res.redirect(routes.home);
   }
 };
