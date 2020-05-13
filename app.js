@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan"; // log알려주는 미들웨어
 import helmet from "helmet"; //보안을 위한 미들웨어
 import cookieParser from "cookie-parser"; //요청된 쿠키를 쉽게 추출할 수 있도록 도와주는 미들웨어 입니다
+import passport from "passport";
 import bodyParser from "body-parser"; //post로 요청된 body를 쉽게 추출할 수 있는 모듈이다, node.js의 post요청 데이터를 추출할 수 있도록 만들어 주는 미들웨어이다
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
@@ -10,7 +11,7 @@ import routes from "./routes";
 import {
   localsMiddleware
 } from "./middleware";
-
+import "./passport";
 
 const app = express();
 
@@ -25,6 +26,10 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(morgan("dev"));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(localsMiddleware);
 
 app.use(routes.home, globalRouter);

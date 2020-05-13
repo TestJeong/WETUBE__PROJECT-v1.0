@@ -15,7 +15,7 @@ import {
 const globalRouter = express.Router();
 
 globalRouter.get(routes.join, getJoin); // 데이터 전송방식 get,post 방식이 있다.
-globalRouter.post(routes.join, postJoin);
+globalRouter.post(routes.join, postJoin, postLogin);
 
 globalRouter.get(routes.login, getLogin);
 globalRouter.post(routes.login, postLogin);
