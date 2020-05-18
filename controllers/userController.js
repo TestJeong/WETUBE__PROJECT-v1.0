@@ -27,10 +27,14 @@ export const postJoin = async (req, res, next) => {
   } else {
     try {
       const user = await User({
-        name,
-        email
-      });
-      await User.register(user, password);
+        email,
+        name
+      }); // .create는 데이터베이스에 개체를 저장합니다.
+      //User ({})는 DB를 사용하지 않고 사용자의 형태로 객체를 만듭니다.
+      // join을 하면서 입력한 email과 naem을 User모델의 email과 name에 넣어줍니다(저장은x)
+
+      await User.register(user, password); // 이제 user에 저장한 값을 password와 같이 User모델에 등록을 해줍니다.
+      // deserializeUser는 매번 페이지를 갈때마다 세션에 있는 id값을 받아 db에 조회환후 req.user에 저자장되는데 name과 email을 등록해놨기 때문이다
       next();
     } catch (error) {
       console.log(error);
@@ -38,6 +42,7 @@ export const postJoin = async (req, res, next) => {
   }
 };
 
+//user은 join을 하면서 email, name을 받아와서 user에 저장한 후 register를 이용하요 User모델에 user과 password를 저장한다.
 
 
 export const getLogin = (req, res) =>
