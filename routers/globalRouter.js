@@ -11,14 +11,17 @@ import {
   logout,
   postJoin
 } from "../controllers/userController";
+import {
+  onlyPublic
+} from "../middleware";
 
 const globalRouter = express.Router();
 
-globalRouter.get(routes.join, getJoin); // 데이터 전송방식 get,post 방식이 있다.
-globalRouter.post(routes.join, postJoin, postLogin);
+globalRouter.get(routes.join, onlyPublic, getJoin); // 데이터 전송방식 get,post 방식이 있다.
+globalRouter.post(routes.join, onlyPublic, postJoin, postLogin);
 
-globalRouter.get(routes.login, getLogin);
-globalRouter.post(routes.login, postLogin);
+globalRouter.get(routes.login, onlyPublic, getLogin);
+globalRouter.post(routes.login, onlyPublic, postLogin);
 
 
 globalRouter.get(routes.home, home);
