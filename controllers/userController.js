@@ -57,11 +57,20 @@ export const postLogin = passport.authenticate('local', {
 
 
 
+export const githubLoginCallback = (accessToken, refreshToken, profile, cb) => {};
+//passport로부터 우리에게 제공 되는 것. 깃헙이 주는 정보들
+// 함수인데 이게 만약 실행이 되면 passport에게 이봐! 사용자가 성공적으로 로그인했다! 라고 말 할 수 있다
+
 export const logout = (req, res) => {
+  req.logout();
   res.redirect(routes.home);
 };
 
+export const githubLogin = passport.authenticate("github");
 
+export const postGithubLogIn = (req, res) => {
+  res.send(routes.home)
+}
 
 
 export const users = (req, res) =>

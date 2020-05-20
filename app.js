@@ -33,7 +33,7 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 app.use(session({
-  secret: "hello",
+  secret: process.env.COOKIE_PWD,
   resave: true,
   saveUninitialized: false,
   store: new CokieStore({

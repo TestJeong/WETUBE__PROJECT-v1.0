@@ -1,4 +1,5 @@
 import express from "express";
+import passport from "passport";
 import routes from "../routes";
 import {
   home,
@@ -9,10 +10,13 @@ import {
   getLogin,
   postLogin,
   logout,
-  postJoin
+  postJoin,
+  githubLogin,
+  postGithubLogIn
 } from "../controllers/userController";
 import {
-  onlyPublic
+  onlyPublic,
+  onlyPrivate
 } from "../middleware";
 
 const globalRouter = express.Router();
@@ -25,7 +29,14 @@ globalRouter.post(routes.login, onlyPublic, postLogin);
 
 
 globalRouter.get(routes.home, home);
-globalRouter.get(routes.logout, logout);
+globalRouter.get(routes.logout, onlyPrivate, logout);
 globalRouter.get(routes.search, search);
+
+globalRouter.get(routes.gitHub, githubLogin);
+// 인증이 끝나면 사용자는 passport.js에 있는 callbackURL로 돌아온다
+
+globalRouter.get(routes.githubcallback, passport.authenticate("github", {
+  failureRedirect: "/login"
+}), postGithubLogIn);
 
 export default globalRouter;
