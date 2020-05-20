@@ -7,7 +7,7 @@ import {
 import routes from "./routes";
 
 
-passport.use(User.createStrategy());
+passport.use(User.createStrategy()); //strategy는 로그인하는 방식
 
 passport.use(new GithubStrategy({
   clientID: process.env.GH_ID,
