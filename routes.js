@@ -4,6 +4,7 @@ const JOIN = "/join";
 const LOGIN = "/login";
 const LOGOUT = "/logout";
 const SEARCH = "/search";
+const ME = "/me";
 
 // Users
 
@@ -65,7 +66,8 @@ const routes = {
     }
   },
   gitHub: GITHUB,
-  githubcallback: GITHUB_CALLBACK
+  githubcallback: GITHUB_CALLBACK,
+  me: ME
 };
 
 export default routes;
