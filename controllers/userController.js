@@ -1,10 +1,10 @@
 import routes from "../routes";
-import User from "../models/User"
+import User from "../models/User";
 import passport from "passport";
 
 export const getJoin = (req, res) => {
   res.render("join", {
-    pageTitle: "JOIN"
+    pageTitle: "JOIN",
   });
 };
 
@@ -15,20 +15,20 @@ export const postJoin = async (req, res, next) => {
       email,
       password,
       password2
-    }
+    },
   } = req;
 
   if (password !== password2) {
     // 비밀번호가 같지 않다면(true)
     res.status(400);
     res.render("join", {
-      pageTitle: "JOIN"
+      pageTitle: "JOIN",
     });
   } else {
     try {
       const user = await User({
         email,
-        name
+        name,
       }); // User.create()는 데이터베이스에 개체를 저장까지합니다.
       //User ({})는 DB를 사용하지 않고 사용자의 형태로 객체를 만듭니다.
       // join을 하면서 입력한 email과 name을 User모델의 email과 name에 넣어줍니다(저장은x)
@@ -44,18 +44,15 @@ export const postJoin = async (req, res, next) => {
 
 //user은 join을 하면서 email, name을 받아와서 user에 저장한 후 register를 이용하요 User모델에 user과 password를 저장한다.
 
-
 export const getLogin = (req, res) =>
   res.render("login", {
-    pageTitle: "LOGIN"
+    pageTitle: "LOGIN",
   });
 
-export const postLogin = passport.authenticate('local', {
+export const postLogin = passport.authenticate("local", {
   failureRedirect: routes.login,
-  successRedirect: routes.home
+  successRedirect: routes.home,
 });
-
-
 
 export const githubLoginCallback = async (_, __, profile, cb) => {
   const {
@@ -64,13 +61,14 @@ export const githubLoginCallback = async (_, __, profile, cb) => {
       avatar_url,
       name,
       email
-    }
+    },
   } = profile;
-  console.log(profile)
+  console.log(profile);
   try {
-    const user = await User.findOne({ //우선 깃헙 이메일이 User모델에 있는지 확인한다
-      email
-    })
+    const user = await User.findOne({
+      //우선 깃헙 이메일이 User모델에 있는지 확인한다
+      email,
+    });
     if (user) {
       user.githubId = id;
       user.save();
@@ -80,10 +78,9 @@ export const githubLoginCallback = async (_, __, profile, cb) => {
       email,
       name,
       githubId: id,
-      avatarUrl: avatar_url
+      avatarUrl: avatar_url,
     });
-    return cb(null, newUser)
-
+    return cb(null, newUser);
   } catch (error) {
     return cb(error);
   }
@@ -97,40 +94,50 @@ export const logout = (req, res) => {
   res.redirect(routes.home);
 };
 
-export const githubLogin = passport.authenticate("github");
+export const githubLogin = passport.authenticate("github"); //어떤 사용전략을 할것인가?
 
 export const postGithubLogIn = (req, res) => {
-  res.redirect(routes.home)
-}
-
+  res.redirect(routes.home);
+};
 
 export const users = (req, res) =>
   res.render("users", {
-    pageTitle: "USERS"
+    pageTitle: "USERS",
   });
 
 export const getMe = (req, res) => {
   res.render("userDetail", {
     pageTitle: "USER_DETAIL",
-    user: req.user //현대 로그인 된 사용자
+    user: req.user, //현대 로그인 된 사용자
   });
-}
+};
 
-export const userDetail = (req, res) =>
-  res.render("userDetail", {
-    pageTitle: "USER_DETAIL"
-  });
+export const userDetail = async (req, res) => {
+  const {
+    params: {
+      id
+    }
+  } = req;
+  try {
+    const user = await User.findById(id);
+    res.render("userDetail", {
+      pageTitle: "USER_DETAIL",
+      user
+    })
+  } catch (error) {
+    res.redirect(routes.home)
+  }
+}
 
 export const changePassword = (req, res) =>
   res.render("changePassword", {
-    pageTitle: "CHANGE_PW"
+    pageTitle: "CHANGE_PW",
   });
 
 export const editProfile = (req, res) =>
   res.render("editProfile", {
-    pageTitle: "EDITE_PF"
+    pageTitle: "EDITE_PF",
   });
-
 
 // try, cath는 예외처리 문법
 // try에서 실행할 코드를 작성하고 try에서 오류가 발생했을 경우 cath에서 실행할 코드를 작성한다.
