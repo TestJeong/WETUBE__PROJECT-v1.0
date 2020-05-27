@@ -116,28 +116,72 @@ export const userDetail = async (req, res) => {
   const {
     params: {
       id
-    }
+    },
   } = req;
   try {
     const user = await User.findById(id);
     res.render("userDetail", {
       pageTitle: "USER_DETAIL",
-      user
-    })
+      user,
+    });
   } catch (error) {
-    res.redirect(routes.home)
+    res.redirect(routes.home);
   }
-}
+};
 
-export const changePassword = (req, res) =>
+export const getChangePassword = (req, res) =>
   res.render("changePassword", {
     pageTitle: "CHANGE_PW",
   });
 
-export const editProfile = (req, res) =>
+export const postChangePassword = async (req, res) => {
+  const {
+    body: {
+      oldPassword,
+      newPassword,
+      newPassword1
+    }
+  } = req;
+  try {
+    if (newPassword !== newPassword1) {
+      res.status(400)
+      res.redirect(`/users/${routes.changePassword}`)
+      return;
+    }
+    await req.user.changePassword(oldPassword, newPassword);
+    res.redirect(routes.me);
+  } catch (error) {
+    res.status(400)
+    res.redirect(`/users/${routes.changePassword}`);
+  }
+};
+
+
+
+export const getEditProfile = (req, res) =>
   res.render("editProfile", {
     pageTitle: "EDITE_PF",
   });
+
+export const postEditProfile = async (req, res) => {
+  const {
+    body: {
+      name,
+      email
+    },
+    file
+  } = req;
+  try {
+    await User.findByIdAndUpdate(req.user.id, {
+      name,
+      email,
+      avatarUrl: file ? file.path : req.user.avatarUrl
+    }) // editProfile에서 변경할 프로필 사진이 있을경우 file.path를 없으면 req.user.avatarUrl을 받는다
+    res.redirect(routes.me);
+  } catch (error) {
+    res.redirect(routes.editProfile);
+  }
+}
 
 // try, cath는 예외처리 문법
 // try에서 실행할 코드를 작성하고 try에서 오류가 발생했을 경우 cath에서 실행할 코드를 작성한다.
