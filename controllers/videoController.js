@@ -64,10 +64,13 @@ export const postUpload = async (req, res) => {
     fileUrl: path,
     title, // title : title ( Video 모델에서 스키마로 정의한 이름 : 값)
     description, // description : description
+    creator: req.user.id
   });
-  console.log(req.file.path);
+  req.user.videos.push(newVideo.id); // 파일을 업로드 하면 User 모델안에 videos라는 스키마에 내가 어떤 비디오를 올렸는지 해당 비디오의 id값을 준다
+  req.user.save();
   res.redirect(routes.videoDetail(newVideo.id));
-  // redirect는 말 그대로 "다시 지시하다"라는 말로
+  // redirect는 단순히 원한는 페이지를 보여준다(데이터를 전송할수가 없디)
+  // render같은 경우는 데이터 전송이 가능하다(미들웨어에서 만들어놓은 변수들을 사용 할 수 있다)
   // upload 탬플릿에서 파일, 제목, 설명을 다 적고 "완료"를 누르면 videoDetail 템플릿으로 열어라는 뜻.
 };
 // 몽구스에서 id는 기본적으로 도큐먼트의 _id 필드를 반환하는, 각각의 스키마에 배정되는 가상의 값이다
@@ -84,7 +87,7 @@ export const videoDetail = async (req, res) => {
 
   } = req;
   try {
-    const video = await Video.findById(id);
+    const video = await Video.findById(id).populate("creator")
     console.log(video);
     res.render("videoDetail", {
       pageTitle: video.title,

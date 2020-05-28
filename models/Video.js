@@ -22,6 +22,10 @@ const VideoSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Comment",
   }, ],
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 // comments 에 배열을 쓴 이유는 comments는 여러사람들이 댓글을 다는 것이고
