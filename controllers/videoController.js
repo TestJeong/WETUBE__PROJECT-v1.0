@@ -52,19 +52,14 @@ export const getUpload = (req, res) =>
 
 export const postUpload = async (req, res) => {
   const {
-    body: {
-      title,
-      description
-    },
-    file: {
-      path
-    },
+    body: { title, description },
+    file: { path },
   } = req;
   const newVideo = await Video.create({
     fileUrl: path,
     title, // title : title ( Video 모델에서 스키마로 정의한 이름 : 값)
     description, // description : description
-    creator: req.user.id
+    creator: req.user.id,
   });
   req.user.videos.push(newVideo.id); // 파일을 업로드 하면 User 모델안에 videos라는 스키마에 내가 어떤 비디오를 올렸는지 해당 비디오의 id값을 준다
   req.user.save();
@@ -80,14 +75,11 @@ export const postUpload = async (req, res) => {
 
 export const videoDetail = async (req, res) => {
   const {
-    params: {
-      id
-    },
+    params: { id },
     //주소에 포함된 변수를 담는다. 예를 들어 https://okky.com/post/12345 라는 주소가 있다면 12345를 담는다
-
   } = req;
   try {
-    const video = await Video.findById(id).populate("creator")
+    const video = await Video.findById(id).populate("creator");
     console.log(video);
     res.render("videoDetail", {
       pageTitle: video.title,
@@ -103,9 +95,7 @@ export const videoDetail = async (req, res) => {
 
 export const getEditVideo = async (req, res) => {
   const {
-    params: {
-      id
-    },
+    params: { id },
   } = req;
   try {
     const video = await Video.findById(id);
@@ -120,21 +110,19 @@ export const getEditVideo = async (req, res) => {
 
 export const postEditVideo = async (req, res) => {
   const {
-    params: {
-      id
-    },
-    body: {
-      title,
-      description
-    },
+    params: { id },
+    body: { title, description },
   } = req;
   try {
-    await Video.findOneAndUpdate({
-      _id: id,
-    }, {
-      title,
-      description,
-    });
+    await Video.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        title,
+        description,
+      }
+    );
     res.redirect(routes.videoDetail(id));
   } catch (error) {
     res.redirect(routes.home);
@@ -145,9 +133,7 @@ export const postEditVideo = async (req, res) => {
 
 export const deleteVideo = async (req, res) => {
   const {
-    params: {
-      id
-    },
+    params: { id },
   } = req;
   try {
     await Video.findOneAndRemove({
