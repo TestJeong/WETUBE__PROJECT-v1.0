@@ -32,6 +32,10 @@
         font-weight: 600;
         text-transform: uppercase;
 
+        a:visited {
+          color: white
+        }
+
         li:not(:last-child) {
           margin-right: 15px;
         }

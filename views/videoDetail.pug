@@ -13,7 +13,7 @@ block content
             if video.views === 1
                 span.video__views 1 view
             else 
-                span.video__views #{video.views} views
+                 span.video__views #{video.views} views
             .video__author
                 |Uploaded by
                 a(href=routes.userDetail(video.creator.id))=video.creator.name
