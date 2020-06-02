@@ -119,7 +119,7 @@ export const userDetail = async (req, res) => {
     },
   } = req;
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("videos");
     res.render("userDetail", {
       pageTitle: "USER_DETAIL",
       user,
@@ -146,7 +146,6 @@ export const postChangePassword = async (req, res) => {
     if (newPassword !== newPassword1) {
       res.redirect(`/users/${routes.changePassword}`)
       res.status(400)
-      console.log(res.status(400))
       return;
     }
     await req.user.changePassword(oldPassword, newPassword);

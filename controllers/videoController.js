@@ -66,7 +66,6 @@ export const postUpload = async (req, res) => {
     description, // description : description
     creator: req.user.id,
   });
-  console.log(req.file.path)
   req.user.videos.push(newVideo.id); // 파일을 업로드 하면 User 모델안에 videos라는 스키마에 내가 어떤 비디오를 올렸는지 해당 비디오의 id값을 준다
   req.user.save();
   res.redirect(routes.videoDetail(newVideo.id));
@@ -109,10 +108,14 @@ export const getEditVideo = async (req, res) => {
   } = req;
   try {
     const video = await Video.findById(id);
-    res.render("editVideo", {
-      pageTitle: `Edit ${video.title}`,
-      video,
-    });
+    if (String(video.creator) !== req.user.id) {
+      throw Error();
+    } else {
+      res.render("editVideo", {
+        pageTitle: `Edit ${video.title}`,
+        video,
+      });
+    }
   } catch (error) {
     res.redirect(routes.home);
   }
@@ -150,9 +153,14 @@ export const deleteVideo = async (req, res) => {
     },
   } = req;
   try {
-    await Video.findOneAndRemove({
-      _id: id,
-    });
+    const video = await Video.findById(id);
+    if (video.creator !== req.user.id) {
+      throw Error();
+    } else {
+      await Video.findOneAndRemove({
+        _id: id,
+      })
+    }
   } catch (error) {
     console.log(error);
   }
@@ -191,3 +199,9 @@ export const deleteVideo = async (req, res) => {
 //따라서이 경우 findOneAndUpdate ({id : id}, SECOND_ARG)
 //두 번째 인수는 FIRST_ARGUMENT로 찾은 객체에서 업데이트하려는 데이터입니다.
 //findOneAndUpdate ({id : 1}, {title : "hello"})는 id가 1 인 요소를 찾고 제목을 'hello'로 변경합니다.
+
+//앞에 String을 붙여주는 이유는
+//===하고 ==의 차이는 또는 !==와 !=의 차이는
+//===, !==는 타입까지 비교를 한다는 점입니다. 
+//실제로 video.creator는 String이 아니고 req.user.id는 String이라 타입이 달라 id가 같아도 연산결과가 false로 나옵니다. 그래서 타입을 같게 형변환을 해준것 같습니다.
+//도움이 되셨길 바랍니다
