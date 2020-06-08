@@ -87,7 +87,6 @@ export const videoDetail = async (req, res) => {
   } = req;
   try {
     const video = await Video.findById(id).populate("creator"); //populate는 객체를 불러오는 것으로 타입이 ObjectId일때만 사용 할 수있다 이걸 사용하지 않으면 Video모델의 creator는 그냥 id값만 나오지만 이걸 사용 하면 creator의 상세 정보들이 다 나온다
-    console.log(video);
     res.render("videoDetail", {
       pageTitle: video.title,
       video, //video란 params로 받은 id값을 받아 Video 모델에서 받은 id값에 맞는 데이터 정보들을 템플릿페이지로 이동해 템플릿 페이지에서 사용한다.
