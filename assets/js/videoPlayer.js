@@ -65,6 +65,7 @@ const formatDate = (seconds) => {
 // 진수 변경시 8진수 24을 10진수로 변경하려면 parseInt(24, 8)이런식으로 적는다
 
 function setTotalTime() {
+  console.log(videoPlayer.duration);
   const totalTimeString = formatDate(videoPlayer.duration);
   totalTime.innerHTML = totalTimeString;
   setInterval(getCurrentTime, 1000); // 일정한 시간 간격으로 코드를 반복 실행하는 함수 1000ms가 1s(초)
@@ -81,7 +82,9 @@ function hadnleEnded() {
 
 function handleDrag(event) {
   const {
-    target: { value },
+    target: {
+      value
+    },
   } = event;
   videoPlayer.volume = value;
 
