@@ -166,6 +166,24 @@ export const deleteVideo = async (req, res) => {
   res.redirect(routes.home);
 };
 
+export const postregisterView = async (req, res) => {
+  const {
+    params: {
+      id
+    }
+  } = req;
+  try {
+    const video = await Video.findById(id)
+    video.views += 1
+    video.save();
+    res.status(200);
+  } catch (error) {
+    res.status(400);
+  } finally {
+    res.end();
+  }
+}
+
 // render 함수의 첫번째 인자는 템플릿이고, 두 번째 인자는 템플릿에 추가할 정보가 담긴 객체
 // render 함수는 첫 번째 인자는 페이지 파일명, 두 번째 인자로 보낼 값들을 object 형식으로 준다
 // render는 설정된 템플릿 엔진(pug)을 사용해서 views를 렌더링 한다

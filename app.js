@@ -10,11 +10,13 @@ import bodyParser from "body-parser"; //post로 요청된 body를 쉽게 추출�
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
+import apiRouter from "./routers/apiRouter";
 import routes from "./routes";
 import {
   localsMiddleware
 } from "./middleware";
 import "./passport";
+
 
 const app = express();
 
@@ -50,6 +52,7 @@ app.use(localsMiddleware);
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter);
 app.use(routes.videos, videoRouter);
+app.use(routes.api, apiRouter);
 
 export default app;
 
