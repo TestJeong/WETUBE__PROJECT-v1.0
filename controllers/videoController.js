@@ -211,7 +211,7 @@ export const postAddComent = async (req, res) => {
   } catch (error) {
     res.status(400);
   } finally {
-    res.end
+    res.end()
   }
 }
 
