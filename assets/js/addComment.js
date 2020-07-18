@@ -23,7 +23,7 @@ const sendComment = async (comment) => {
     url: `/api/${videoId}/comment`,
     method: "post",
     data: {
-      comment,
+      comment, // comment = comment 라는 뜻
     },
   });
   if (response.status === 200) {
